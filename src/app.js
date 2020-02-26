@@ -6,7 +6,7 @@ const cors = require('cors')
 const { NODE_ENV, API_TOKEN } = require('./config')
 const validateBearerToken = require('./validate-bearer-token')
 const errorHandler = require('./error-handler')
-const anyRouter = require('./any/any-router')
+const anyRouter = require('./notes/notes-router')
 
 const app = express()
 
