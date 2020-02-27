@@ -1,29 +1,29 @@
-const AnyService = {
-  getAllAny(knex) {
-    return knex.select('*').from('anydb')
+const NotesService = {
+  getAllNotes(knex) {
+    return knex.select('*').from('notes')
   },
   getById(knex, id) {
-    return knex.from('anydb').select('*').where('id', id).first()
+    return knex.from('notes').select('*').where('id', id).first()
   },
-  insertAny(knex, newAny) {
+  insertNotes(knex, newNotes) {
     return knex
-      .insert(newAny)
-      .into('anydb')
+      .insert(newNotes)
+      .into('notes')
       .returning('*')
       .then(rows => {
         return rows[0]
       })
   },
-  deleteAny(knex, id) {
-    return knex('anydb')
+  deleteNotes(knex, id) {
+    return knex('notes')
     .where({ id })
     .delete()
   },
-  updateAny(knex, id, newAnyFields) {
-    return knex('anydb')
+  updateNotes(knex, id, newNotesFields) {
+    return knex('notes')
       .where({ id })
-      .update(newAnyFields)
+      .update(newNotesFields)
   },
 }
 
-module.exports = AnyService
+module.exports = NotesService

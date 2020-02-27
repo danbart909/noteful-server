@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha --require test/setup.js",
-    "start": "node src/server",
-    "dev": "nodemon src/server",
-    "migrate": "postgrator --config postgrator-config.js",
-    "migrate:test": "env NODE_ENV=test npm run migrate",
+    "start": "cross-env node src/server",
+    "dev": "cross-env nodemon src/server",
+    "migrate": "cross-env postgrator --config postgrator-config.js",
+    "migrate:test": "cross-env env NODE_ENV=test npm run migrate",
     "predeploy": "npm audit",
     "deploy": "git push heroku master"
   },
@@ -20,6 +20,7 @@
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
+    "cross-env": "^7.0.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "helmet": "^3.21.2",

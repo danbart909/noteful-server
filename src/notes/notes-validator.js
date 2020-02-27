@@ -2,7 +2,7 @@ const logger = require('../logger')
 
 const NO_ERRORS = null
 
-function getAnyValidationError({ age }) {
+function getNotesValidationError({ age }) {
   if (age &&
     (!Number.isInteger(age) || age < 18 || age > 100)) {
       logger.error(`Invalid age '${age} supplied`)
@@ -17,5 +17,5 @@ function getAnyValidationError({ age }) {
 }
 
 module.exports = {
-  getBookmarkValidationError,
+  getNotesValidationError,
 }
