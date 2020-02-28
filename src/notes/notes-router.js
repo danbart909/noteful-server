@@ -46,7 +46,7 @@ notesRouter
 
     // const error = getNotesValidationError(newNotes)
 
-    if (error) return res.status(400).send(error)
+    // if (error) return res.status(400).send(error)
 
     NotesService.insertNotes(db, newNotes)
       .then(notes => {

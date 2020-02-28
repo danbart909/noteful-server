@@ -13,14 +13,14 @@ const serializeFolders = folders => ({
   name: xss(folders.name),
 })
 
-// const folders = req.app.get('db')
+// const foldersdb = req.app.get('db')
 
 foldersRouter
   .route('/')
 
   .get((req, res, next) => {
-    const folders = req.app.get('db')
-    FoldersService.getAllFolders(folders)
+    const foldersdb = req.app.get('db')
+    FoldersService.getAllFolders(foldersdb)
     .then(folders => {
       res.json(folders.map(serializeFolders))
     })
@@ -28,24 +28,24 @@ foldersRouter
   })
 
   .post(bodyParser, (req, res, next) => {
-    const folders = req.app.get('db')
+    const foldersdb = req.app.get('db')
     const { name } = req.body
     const newFolders = { name }
+    console.log(name, newFolders)
 
-    for (const field of ['name']) {
-      if (!newFolders[field]) {
-        logger.error(`${field} is required`)
-        return res.status(400).send({
-          error: { message: `'${field}' is required` }
-        })
-      }
+
+    if (!name) {
+      logger.error(`${name} is required`)
+      return res.status(400).send({
+        error: { message: `'${name}' is required` }
+      })
     }
 
     // const error = getAnyValidationError(newAny)
 
-    if (error) return res.status(400).send(error)
+    // if (error) return res.status(400).send(error)
 
-    FoldersService.insertFolders(folders, newFolders)
+    FoldersService.insertFolders(foldersdb, newFolders)
       .then(folders => {
         logger.info(`Any with id ${folders.id} created.`)
         res
@@ -60,9 +60,9 @@ foldersRouter
     .route('/:folders_id')
 
     .all((req, res, next) => {
-      const folders = req.app.get('db')
+      const foldersdb = req.app.get('db')
       const { folders_id } = req.params
-      FoldersService.getById(folders, folders_id)
+      FoldersService.getById(foldersdb, folders_id)
         .then(folders => {
           if (!folders) {
             logger.error(`Any with id ${folders_id} not found.`)
@@ -81,9 +81,9 @@ foldersRouter
     })
 
     .delete((req, res, next) => {
-      const folders = req.app.get('db')
+      const foldersdb = req.app.get('db')
       const { folders_id } = req.params
-      FoldersService.deleteFolders(folders, folders_id)
+      FoldersService.deleteFolders(foldersdb, folders_id)
         .then(() => {
           logger.info(`Any with id ${folders_id} deleted.`)
           res.status(204).end()
@@ -92,9 +92,9 @@ foldersRouter
       })
 
     .patch(bodyParser, (req, res, next) => {
-      const folders = req.app.get('db')
-      const { param1, param2, param3 } = req.body
-      const newFolders = { param1, param2, param3 }
+      const foldersdb = req.app.get('db')
+      const { name } = req.body
+      const newFolders = { name }
 
       const numberOfValues = Object.values(newFolders).filter(Boolean).length
       if (numberOfValues === 0) {
@@ -110,7 +110,7 @@ foldersRouter
       if (error) return res.status(400).send(error)
       const { folders_id } = req.params
 
-      FoldersService.updateFolders(folders, folders_id, newFolders)
+      FoldersService.updateFolders(foldersdb, folders_id, newFolders)
         .then(() => {
           res.status(204).end()
         })
